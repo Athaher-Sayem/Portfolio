@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio of {{ p.name }} — {{ p.title }}" />
+  <title>{{ p.name }} | Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ 
+   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+  <!-- AOS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body>
+
+<!-- ──────────────────────────────────────────
+     NAVBAR
+────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container-xl">
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold" href="#hero">
+      <span class="brand-bracket">&lt;</span>ASF<span class="brand-bracket">/&gt;</span>
+    </a>
+
+    <!-- Mobile toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        {% for item in ['About','Skills','Projects','Experience','Achievements','Contact'] %}
+        <li class="nav-item">
+          <a class="nav-link" href="#{{ item | lower }}">{{ item }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Theme toggle -->
+      <button class="theme-toggle ms-lg-3" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+        <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ──────────────────────────────────────────
+     HERO
+────────────────────────────────────────── -->
+<section id="hero" class="hero-section d-flex align-items-center">
+  <!-- Animated background orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <!-- Grid overlay -->
+  <div class="hero-grid"></div>
+
+  <div class="container-xl position-relative z-1">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-10">
+        <div class="hero-eyebrow mb-3">
+          <span class="badge-pill">
+            <i class="bi bi-circle-fill pulse-dot me-2"></i>
+            Available for TAF &amp; Internship Opportunities
+          </span>
+        </div>
+
+        <h1 class="hero-name display-2 mb-3">
+          {{ p.name }}
+        </h1>
+
+        <div class="hero-subtitle mb-4">
+          <span class="typed-prefix">I am a&nbsp;</span>
+          <span id="typedText" class="typed-text"></span>
+          <span class="typed-cursor">|</span>
+        </div>
+
+        <p class="hero-bio mx-auto mb-5">
+          {{ p.bio }}
+        </p>
+
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+          <a href="#projects" class="btn btn-primary-custom btn-lg">
+            <i class="bi bi-grid-3x3-gap-fill me-2"></i>View Projects
+          </a>
+          <a href="#contact" class="btn btn-outline-custom btn-lg">
+            <i class="bi bi-send-fill me-2"></i>Contact Me
+          </a>
+          <a href="{{ url_for('static', filename='cv/Athaher_Sayem_CV.pdf') }}"
+             class="btn btn-ghost-custom btn-lg"
+             download title="Download CV">
+            <i class="bi bi-download me-2"></i>Download CV
+          </a>
+          
+        </div>
+
+        <!-- Scroll cue -->
+        <div class="scroll-cue mt-5">
+          <div class="scroll-line"></div>
+          <span class="scroll-label">scroll</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────
+     ABOUT
+────────────────────────────────────────── -->
+<section id="about" class="section-pad">
+  <div class="container-xl">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">01 / Who I Am</span>
+      <h2 class="section-title">About <span class="text-accent">Me</span></h2>
+    </div>
+
+    <div class="row align-items-center g-5">
+      <!-- Avatar / Stats column -->
+      <div class="col-lg-4" data-aos="fade-right" data-aos-delay="100">
+        <div class="about-card">
+          <div class="avatar-wrap mb-4">
+            <div class="avatar-ring">
+                <img
+                  src="{{ url_for('static', filename='img/profile.jpg') }}"
+                  alt="Photo of {{ p.name }}"
+                  class="avatar-img"
+                />
+              </div>
+            <!-- Floating badges -->
+            <div class="float-badge float-badge-1">
+              <i class="bi bi-code-slash"></i> Developer
+            </div>
+            <div class="float-badge float-badge-2">
+              <i class="bi bi-mortarboard-fill"></i> Student
+            </div>
+          </div>
+
+          <!-- Stats grid -->
+          <div class="stats-grid">
+            {% for stat in p.stats %}
+            <div class="stat-item">
+              <div class="stat-value">{{ stat.value }}<span class="stat-suffix">{{ stat.suffix }}</span></div>
+              <div class="stat-label">{{ stat.label }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio column -->
+      <div class="col-lg-8" data-aos="fade-left" data-aos-delay="200">
+        <div class="about-content">
+          <h3 class="about-greeting">Hello! I'm <span class="text-accent">{{ p.first_name }}</span> 👋</h3>
+          <p class="about-bio mb-4">{{ p.bio }}</p>
+          <p class="about-goal mb-4">{{ p.goal }}</p>
+
+          <!-- Info pills -->
+          <div class="info-pills mb-4">
+            <span class="info-pill"><i class="bi bi-geo-alt-fill me-2"></i>{{ p.location }}</span>
+            <span class="info-pill"><i class="bi bi-envelope-fill me-2"></i>{{ p.email }}</span>
+            <span class="info-pill"><i class="bi bi-telephone-fill me-2"></i>{{ p.phone }}</span>
+          </div>
+
+          <!-- Education timeline -->
+          <h5 class="subsection-title mb-3"><i class="bi bi-mortarboard-fill me-2 text-accent"></i>Education</h5>
+          <div class="edu-timeline">
+            {% for edu in p.education %}
+            <div class="edu-item">
+              <div class="edu-dot"><i class="bi bi-{{ edu.icon }}"></i></div>
+              <div class="edu-content">
+                <div class="edu-degree">{{ edu.degree }}</div>
+                <div class="edu-inst">{{ edu.institution }}</div>
+                <div class="edu-meta">
+                  <span class="edu-year"><i class="bi bi-calendar3 me-1"></i>{{ edu.year }}</span>
+                  <span class="edu-detail">{{ edu.detail }}</span>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────
+     SKILLS
+────────────────────────────────────────── -->
+<section id="skills" class="section-pad section-alt">
+  <div class="container-xl">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">02 / What I Know</span>
+      <h2 class="section-title">Technical <span class="text-accent">Skills</span></h2>
+    </div>
+
+    <div class="row g-4">
+      {% for category, items in p.skills.items() %}
+      <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+        <div class="skill-card h-100">
+          <div class="skill-card-header">
+            <div class="skill-icon-wrap">
+              {% if category == "Frontend" %}
+                <i class="bi bi-layout-text-window-reverse"></i>
+              {% elif category == "Backend" %}
+                <i class="bi bi-server"></i>
+              {% elif category == "Database" %}
+                <i class="bi bi-database-fill"></i>
+              {% elif category == "Systems & DevOps" %}
+                <i class="bi bi-terminal-fill"></i>
+              {% elif category == "Networking" %}
+                <i class="bi bi-diagram-3-fill"></i>
+              {% elif category == "ML / AI" %}
+                <i class="bi bi-cpu-fill"></i>
+              {% else %}
+                <i class="bi bi-gear-fill"></i>
+              {% endif %}
+            </div>
+            <h5 class="skill-cat-title">{{ category }}</h5>
+          </div>
+          <div class="skill-tags">
+            {% for skill in items %}
+            <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────
+     PROJECTS
+────────────────────────────────────────── -->
+<section id="projects" class="section-pad">
+  <div class="container-xl">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">03 / What I've Built</span>
+      <h2 class="section-title">Featured <span class="text-accent">Projects</span></h2>
+    </div>
+
+    <!-- Featured row (first 2) -->
+    <div class="row g-4 mb-4">
+      {% for project in p.projects if project.featured %}
+      <div class="col-lg-6" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 120 }}">
+        <div class="project-card featured-card h-100">
+          <div class="project-card-body">
+            <div class="project-header">
+              <div class="project-icon-wrap">
+                <i class="bi bi-{{ project.icon }}"></i>
+              </div>
+              <div class="project-links">
+                {% if project.github %}
+                <a href="{{ project.github }}" target="_blank" class="project-link" title="GitHub">
+                  <i class="bi bi-github"></i>
+                </a>
+                {% endif %}
+                {% if project.live %}
+                <a href="{{ project.live }}" target="_blank" class="project-link" title="Live Demo">
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="featured-badge">Featured</div>
+            <h4 class="project-title mt-3">{{ project.title }}</h4>
+            <p class="project-desc">{{ project.description }}</p>
+            <div class="project-tech">
+              {% for tech in project.tech %}
+              <span class="tech-tag">{{ tech }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Other projects row -->
+    <div class="row g-4">
+      {% for project in p.projects if not project.featured %}
+      <div class="col-sm-6 col-lg-6" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 120 }}">
+        <div class="project-card h-100">
+          <div class="project-card-body">
+            <div class="project-header">
+              <div class="project-icon-wrap small-icon">
+                <i class="bi bi-{{ project.icon }}"></i>
+              </div>
+              <div class="project-links">
+                {% if project.github %}
+                <a href="{{ project.github }}" target="_blank" class="project-link" title="GitHub">
+                  <i class="bi bi-github"></i>
+                </a>
+                {% endif %}
+              </div>
+            </div>
+            <h5 class="project-title mt-3">{{ project.title }}</h5>
+            <p class="project-desc small">{{ project.description }}</p>
+            <div class="project-tech">
+              {% for tech in project.tech %}
+              <span class="tech-tag small-tag">{{ tech }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a href="{{ p.github }}" target="_blank" class="btn btn-outline-custom">
+        <i class="bi bi-github me-2"></i>View All on GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────
+     EXPERIENCE
+────────────────────────────────────────── -->
+<section id="experience" class="section-pad section-alt">
+  <div class="container-xl">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">04 / My Journey</span>
+      <h2 class="section-title">Experience &amp; <span class="text-accent">Leadership</span></h2>
+    </div>
+
+    <div class="timeline">
+      {% for exp in p.experience %}
+      <div class="timeline-item" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+        <div class="timeline-connector">
+          <div class="timeline-node {{ exp.color }}">
+            <i class="bi bi-{{ exp.icon }}"></i>
+          </div>
+          {% if not loop.last %}<div class="timeline-line"></div>{% endif %}
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-badge {{ exp.color }}">{{ exp.type }}</div>
+          <div class="timeline-header">
+            <div>
+              <h4 class="timeline-role">{{ exp.role }}</h4>
+              <div class="timeline-org">
+                <i class="bi bi-building me-1"></i>{{ exp.org }}
+              </div>
+            </div>
+            <div class="timeline-meta">
+              <span class="timeline-period">
+                <i class="bi bi-calendar3 me-1"></i>{{ exp.period }}
+              </span>
+              <span class="timeline-loc">
+                <i class="bi bi-geo-alt me-1"></i>{{ exp.location }}
+              </span>
+            </div>
+          </div>
+          <ul class="timeline-bullets">
+            {% for bullet in exp.bullets %}
+            <li>{{ bullet }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────
+     ACHIEVEMENTS
+────────────────────────────────────────── -->
+<section id="achievements" class="section-pad">
+  <div class="container-xl">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">05 / Recognition</span>
+      <h2 class="section-title">Achievements &amp; <span class="text-accent">Awards</span></h2>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      {% for ach in p.achievements %}
+      <div class="col-sm-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ loop.index0 * 80 }}">
+        <div class="achievement-card h-100">
+          <div class="ach-icon-wrap {{ ach.color }}">
+            <i class="bi bi-{{ ach.icon }}"></i>
+          </div>
+          <h5 class="ach-title">{{ ach.title }}</h5>
+          <p class="ach-detail">{{ ach.detail }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────
+     CONTACT
+────────────────────────────────────────── -->
+<section id="contact" class="section-pad section-alt">
+  <div class="container-xl">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-tag">06 / Get In Touch</span>
+      <h2 class="section-title">Contact <span class="text-accent">Me</span></h2>
+    </div>
+
+    <div class="row g-5 align-items-start">
+      <!-- Contact info -->
+      <div class="col-lg-5" data-aos="fade-right" data-aos-delay="100">
+        <div class="contact-info">
+          <p class="contact-intro">
+            Whether you have a project idea, a TAF or internship opportunity,
+            or just want to say hello — my inbox is always open. I'll get back to you promptly!
+          </p>
+
+          <div class="contact-items">
+            <a href="mailto:{{ p.email }}" class="contact-item">
+              <div class="contact-item-icon"><i class="bi bi-envelope-fill"></i></div>
+              <div>
+                <div class="contact-item-label">Email</div>
+                <div class="contact-item-value">{{ p.email }}</div>
+              </div>
+            </a>
+            <div class="contact-item">
+              <div class="contact-item-icon"><i class="bi bi-telephone-fill"></i></div>
+              <div>
+                <div class="contact-item-label">Phone</div>
+                <div class="contact-item-value">{{ p.phone }}</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon"><i class="bi bi-geo-alt-fill"></i></div>
+              <div>
+                <div class="contact-item-label">Location</div>
+                <div class="contact-item-value">{{ p.location }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social links -->
+          <div class="social-links mt-4">
+            <a href="{{ p.github }}" target="_blank" class="social-btn" title="GitHub">
+              <i class="bi bi-github"></i>
+              <span>GitHub</span>
+            </a>
+            <a href="{{ p.linkedin }}" target="_blank" class="social-btn linkedin" title="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+              <span>LinkedIn</span>
+            </a>
+            <a href="mailto:{{ p.email }}" class="social-btn email-btn" title="Email">
+              <i class="bi bi-envelope-fill"></i>
+              <span>Email</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="col-lg-7" data-aos="fade-left" data-aos-delay="200">
+        <div class="contact-form-wrap">
+          <form id="contactForm" novalidate>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="contactName">Full Name</label>
+                <input type="text" id="contactName" class="form-control-custom"
+                       placeholder="Your full name" required />
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label-custom" for="contactEmail">Email Address</label>
+                <input type="email" id="contactEmail" class="form-control-custom"
+                       placeholder="your@email.com" required />
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom" for="contactSubject">Subject</label>
+                <input type="text" id="contactSubject" class="form-control-custom"
+                       placeholder="What is this about?" />
+              </div>
+              <div class="col-12">
+                <label class="form-label-custom" for="contactMessage">Message</label>
+                <textarea id="contactMessage" class="form-control-custom" rows="5"
+                          placeholder="Tell me about your project, opportunity, or just say hello..." required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary-custom w-100 btn-lg" id="submitBtn">
+                  <span id="btnText"><i class="bi bi-send-fill me-2"></i>Send Message</span>
+                  <span id="btnLoading" class="d-none">
+                    <span class="spinner-border spinner-border-sm me-2"></span>Sending...
+                  </span>
+                </button>
+              </div>
+              <div class="col-12">
+                <div id="formAlert" class="form-alert d-none"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────
+     FOOTER
+────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container-xl">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-bracket">&lt;</span>ASF<span class="brand-bracket">/&gt;</span>
+      </div>
+      <nav class="footer-nav">
+        {% for item in ['About','Skills','Projects','Experience','Achievements','Contact'] %}
+        <a href="#{{ item | lower }}" class="footer-link">{{ item }}</a>
+        {% endfor %}
+      </nav>
+      <div class="footer-social">
+        <a href="{{ p.github }}" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+        <a href="{{ p.linkedin }}" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        <a href="mailto:{{ p.email }}" title="Email"><i class="bi bi-envelope-fill"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>
+        &copy; {{ 2025 }} {{ p.name }}. Crafted with
+        <i class="bi bi-heart-fill text-accent mx-1"></i>
+        using Flask &amp; Bootstrap.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button class="back-to-top" id="backToTop" title="Back to top">
+  <i class="bi bi-arrow-up-short"></i>
+</button>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
